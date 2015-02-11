@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
-		<title></title>
-		<description>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
-</description>
-		<link>http://yourdomain.com</link>
-		<atom:link href="http://yourdomain.com/feed.xml" rel="self" type="application/rss+xml" />
+		<title>Solar Theme</title>
+		<description>A personal blog</description>
+		<link>http://ruudvanderweijde.github.io</link>
+		<atom:link href="http://ruudvanderweijde.github.io/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
 				<title>France Removes Internet Cut-Off Threat From its Anti-Piracy Law</title>
 				<description>
 </description>
 				<pubDate>Wed, 05 Jun 2013 22:33:11 +0200</pubDate>
-				<link>http://yourdomain.com/2013/06/05/france-removes-internet-cut-off.html</link>
-				<guid isPermaLink="true">http://yourdomain.com/2013/06/05/france-removes-internet-cut-off.html</guid>
+				<link>http://ruudvanderweijde.github.io/2013/06/05/france-removes-internet-cut-off/</link>
+				<guid isPermaLink="true">http://ruudvanderweijde.github.io/2013/06/05/france-removes-internet-cut-off/</guid>
 			</item>
 		
 			<item>
@@ -21,8 +20,8 @@
 				<description>
 </description>
 				<pubDate>Wed, 05 Jun 2013 22:03:11 +0200</pubDate>
-				<link>http://yourdomain.com/2013/06/05/jekyll-documentation.html</link>
-				<guid isPermaLink="true">http://yourdomain.com/2013/06/05/jekyll-documentation.html</guid>
+				<link>http://ruudvanderweijde.github.io/2013/06/05/jekyll-documentation/</link>
+				<guid isPermaLink="true">http://ruudvanderweijde.github.io/2013/06/05/jekyll-documentation/</guid>
 			</item>
 		
 			<item>
@@ -42,8 +41,8 @@ To add new posts, simply add a file in the &lt;code&gt;_posts&lt;/code&gt; direc
 
 </description>
 				<pubDate>Wed, 05 Jun 2013 19:06:25 +0200</pubDate>
-				<link>http://yourdomain.com/jekyll/update/2013/06/05/welcome-to-jekyll.html</link>
-				<guid isPermaLink="true">http://yourdomain.com/jekyll/update/2013/06/05/welcome-to-jekyll.html</guid>
+				<link>http://ruudvanderweijde.github.io/2013/06/05/welcome-to-jekyll/</link>
+				<guid isPermaLink="true">http://ruudvanderweijde.github.io/2013/06/05/welcome-to-jekyll/</guid>
 			</item>
 		
 	</channel>
