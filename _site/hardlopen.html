@@ -1,0 +1,204 @@
+<html>
+<head>
+    <title>Hardloop schema berekenen</title>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.2.4/bootstrap-table.min.css" rel="stylesheet">
+
+    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.2.4/bootstrap-table.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/alert.js"></script>
+    <script>
+
+        $(function() {
+           $('.alert').hide();
+        });
+        var distanceSteps = [1, 2, 3, 4, 5, 6, 7, 8, 9, 9.6, 10, 10.5, 11, 12, 13, 14, 15, 16.1, 17, 18, 19,
+            20, 21, 21.1, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 42.2];
+
+        function secondsToHMS(d)
+        {
+            d = Number(d);
+            var h = Math.floor(d / 3600);
+            var m = Math.floor(d % 3600 / 60);
+            var s = Math.floor(d % 3600 % 60);
+            console.log(d, h, m, s);
+            console.log((h > 0 ? (h >= 10 ? String(h) : '0' + String(h)): '00'),
+            (m > 0 ? (m >= 10 ? String(m) : '0' + String(m)): '00'),
+            (s > 0 ? (s >= 10 ? String(s) : '0' + String(s)): '00'),
+            (
+            (h > 0 ? (h >= 10 ? String(h) : '0' + String(h)): '00') + ':' +
+            (m > 0 ? (m >= 10 ? String(m) : '0' + String(m)): '00') + ':' +
+            (s > 0 ? (s >= 10 ? String(s) : '0' + String(s)): '00')
+            ));
+            return (
+                (h > 0 ? (h >= 10 ? String(h) : '0' + String(h)): '00') + ':' +
+                (m > 0 ? (m >= 10 ? String(m) : '0' + String(m)): '00') + ':' +
+                (s > 0 ? (s >= 10 ? String(s) : '0' + String(s)): '00')
+            );
+        }
+
+        function getValue1(i) { return (totalSeconds / totalKm) * i; }
+        function getValue2(i) { return Math.pow((i / totalKm), 1.06) * totalSeconds }
+
+        function showTable() {
+            $('.alert').hide();
+
+            function generateResultDataHeader() {
+                $row = $('<tr>');
+                $('<th>').text("KM").appendTo($row);
+                $('<th>').text("Lineair").appendTo($row);
+                $('<th>').text("Opbouwend").appendTo($row);
+                $row.appendTo($resultTable);
+            }
+            function generateResultDataRow(i) {
+                $row = $('<tr>');
+                $('<td>').text(i).appendTo($row);
+                $('<td>').text(secondsToHMS(getValue1(i))).appendTo($row);
+                $('<td>').text(secondsToHMS(getValue2(i))).appendTo($row);
+                $row.appendTo($resultTable);
+            }
+            function generateFactDataRow(table, label, value) {
+                $row = $('<tr>');
+                $('<td>').text(label).appendTo($row);
+                $('<td>').text(value).appendTo($row);
+                $row.appendTo(table);
+            }
+            function timeToSeconds(timeInput) {
+                return (parseInt(timeInput[1]) * 3600) + (parseInt(timeInput[2]) * 60) + (parseInt(timeInput[3]));
+            }
+            function timePer(meters) {
+                return secondsToHMS((totalSeconds / totalKm) * 1000) / (1000 / meters);
+            }
+
+            function validateAndHandleInput() {
+                distanceInput = $('#distanceInKm').val();
+                if (distanceInput <= 0) {
+                    showWarning('Voer een afstand in...');
+                    return false;
+                }
+                totalKm = distanceInput < 200 ? distanceInput : distanceInput / 1000;
+
+                var re = /^([0-9]?[0-9]):([0-5][0-9]):([0-5][0-9])$/.exec($('#time').val());
+                if (!re) {
+                    showWarning('Voer een geldige tijd in. Het formaat is HH::mm:ss');
+                    return false;
+                }
+                totalSeconds = timeToSeconds(re);
+                if (totalSeconds <= 0) {
+                    showWarning('Voer een tijd in.');
+                    return false;
+                }
+
+                return true;
+            }
+
+            function showWarning(message) {
+                $('.alert').show().text(message);
+            }
+
+            if(validateAndHandleInput()){
+                var $div = $('#result').empty(); // reset
+                $resultTable = $('<table>').addClass('table');
+                generateResultDataHeader();
+                for (i in distanceSteps) {
+                    generateResultDataRow(distanceSteps[i]);
+                }
+                $resultTable.appendTo($div);
+
+                // create fact table
+                var gemiddeldeMeterPerSeconde = (totalKm * 1000) / totalSeconds;
+                var gemiddeldeKilomterPerUur  = gemiddeldeMeterPerSeconde * 3.6;
+
+                $('#distanceInKmValue').text(Math.round(totalKm) + 'km');
+                $('#averageKmph').text(Math.round(gemiddeldeKilomterPerUur, 2) + ' km/u');
+                $('#averageMs').text(Math.round(gemiddeldeMeterPerSeconde, 2) + ' m/s');
+//                var timeper = timePer(1000);
+//                console.log('timeper :: ' + timeper);
+//                $('#timePer1000').text(timeper);
+//                $('#timePer500').text(timePer(500));
+//                $('#timePer400').text(timePer(400));
+//                $('#timePer100').text(timePer(100));
+
+                // bootstrapTable
+                $div.find('table').bootstrapTable();
+            }
+        }
+
+    </script>
+</head>
+<body>
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <h1>Hardloopschema berekenen</h1>
+        </div>
+
+        <div class="col-md-8">
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label for="distanceInKm" class="col-sm-4 control-label">Voer de afstand in:</label>
+
+                    <div class="col-sm-4">
+                        <input type="number" class="form-control" id="distanceInKm" placeholder="Afstand in meters"
+                               min="1" max="150000" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="time" class="col-sm-4 control-label">Voer de tijd in:</label>
+
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="time" value="00:00:00" placeholder="00:00:00" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-4">
+                        <button type="button" onclick="showTable(); return false;" class="btn btn-default">Geef schema's</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="alert alert-warning alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <span class="errorMessage"></span>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-4" id="facts">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Ingevoerde waarden:	</h3>
+                </div>
+                <div class="panel-body">
+                    <dl class="dl-horizontal">
+                        <dt>Afstand:</dt>
+                        <dd id="distanceInKmValue"></dd>
+                        <dt>Gemiddelde:</dt>
+                        <dd id="averageKmph"></dd>
+                        <dt>Gemiddelde:</dt>
+                        <dd id="averageMs"></dd>
+                        <!--<dt>Tijd per 1000m:<dt>-->
+                        <!--<dd id="timePer1000"><dd>-->
+                        <!--<dt>Tijd per 500m:<dt>-->
+                        <!--<dd id="timePer500"><dd>-->
+                        <!--<dt>Tijd per 400m:<dt>-->
+                        <!--<dd id="timePer400"><dd>-->
+                        <!--<dt>Tijd per 100m:<dt>-->
+                        <!--<dd id="timePer100"><dd>-->
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8" id="result"></div>
+
+    </div>
+</div>
+</body>
+</html>

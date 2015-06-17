@@ -1,9 +1,9 @@
-name: Solar Theme
+name: Ruud van der Weijde
 url: http://ruudvanderweijde.github.io
 description: A personal blog
 
 permalink: /:year/:month/:day/:title/
 paginate: 10
-pygments: true
+highlighter: pygments
 
 exclude: ['README.md', 'Gemfile.lock', 'Gemfile', 'Rakefile']
