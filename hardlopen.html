@@ -85,7 +85,7 @@
                     return false;
                 }
                 totalSeconds = timeToSeconds(re);
-                if (totalSeconds <= 0) {
+                if (totalSeconds <= 0 || 8 < (totalKm * 1000) / totalSeconds) {
                     showWarning('Voer een tijd in.');
                     return false;
                 }
