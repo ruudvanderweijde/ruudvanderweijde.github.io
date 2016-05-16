@@ -131,6 +131,7 @@
                 $('#distanceInKmValue').text(Math.round(totalKm * 100) / 100 + 'km');
                 $('#averageKmph').text(Math.round(gemiddeldeKilomterPerUur * 100) / 100 + ' km/u');
                 $('#averageMs').text(Math.round(gemiddeldeMeterPerSeconde * 100) / 100 + ' m/s');
+debugger;
                 secondsPerMeter = totalSeconds / (totalKm * 1000);
                 $('#timePer1000').text(timePer(secondsPerMeter, 1000));
                 $('#timePer500').text(timePer(secondsPerMeter, 500));
