@@ -13,15 +13,24 @@
     <script>
         function hideWarning() { $('.alert').hide(); }
         function showWarning(message) { $('.alert').show().text(message); }
+        function setValuesFromLocalStorage() {
+            if(typeof(Storage) !== "undefined") {
+                distance = localStorage.getItem("distance");
+                if (distance != null) { document.getElementById("distance").value = distance; }
+                time = localStorage.getItem("time");
+                if (time != null) { document.getElementById("time").value= time; }
+            }
+        }
+        function setValuesToLocalStorage() {
+            if(typeof(Storage) !== "undefined") {
+                localStorage.setItem("distance", document.getElementById("distance").value);
+                localStorage.setItem("time", document.getElementById("time").value);
+            }
+        }
 
         $(function() { 
             hideWarning(); 
-            if(typeof(Storage) !== "undefined") {
-                distance = localStorage.getItem("distance");
-                if (distance != null) { document.getElementById("distance").innerHTML = distance; }
-                time = localStorage.getItem("time");
-                if (time != null) { document.getElementById("time").innerHTML = time; }
-            }
+            setValuesFromLocalStorage();
         });
 
         var distanceSteps = [1, 2, 3, 4, 5, 6, 7, 8, 9, 9.6, 10, 10.5, 11, 12, 13, 14, 15, 16.1, 17, 18, 19,
@@ -96,11 +105,17 @@
                     showWarning('Voer een tijd in.');
                     return false;
                 }
+                meterPerSeconde = (totalKm * 1000) / totalSeconds);
+                if (8 < meterPerSeconde) {
+                    showWarning('Voer een geldige tijd in.');
+                    return false;
+                }
 
                 return true;
             }
 
             if(validateAndHandleInput()){
+                setValuesToLocalStorage();
                 var $div = $('#result').empty(); // reset
                 $resultTable = $('<table>').addClass('table');
                 generateResultDataHeader();
