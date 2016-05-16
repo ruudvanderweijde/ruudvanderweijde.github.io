@@ -114,8 +114,11 @@
                 return true;
             }
 
+            $("#facts > .dl-horizontal").hide();
             if(validateAndHandleInput()){
                 setValuesToLocalStorage();
+                $("#facts > .dl-horizontal").show();
+
                 var $div = $('#result').empty(); // reset
                 $resultTable = $('<table>').addClass('table');
                 generateResultDataHeader();
