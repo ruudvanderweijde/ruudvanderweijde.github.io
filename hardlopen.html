@@ -83,8 +83,8 @@
                 return (parseInt(timeInput[1]) * 3600) + (parseInt(timeInput[2]) * 60) + (parseInt(timeInput[3]));
             }
 
-            function timePer(meters) {
-                return secondsToHMS((totalSeconds / totalKm) * 1000) / (1000 / meters);
+            function timePer(speed, meters) {
+                return secondsToHMS(speed / (1000 / meters);
             }
 
             function validateAndHandleInput() {
@@ -107,7 +107,7 @@
                 }
                 meterPerSeconde = (totalKm * 1000) / totalSeconds;
                 if (8 < meterPerSeconde) {
-                    showWarning('Voer een geldige tijd in.');
+                    showWarning('Voer een geldige tijd in. Zo snel ben jij niet!');
                     return false;
                 }
 
@@ -128,13 +128,14 @@
                 var gemiddeldeMeterPerSeconde = (totalKm * 1000) / totalSeconds;
                 var gemiddeldeKilomterPerUur  = gemiddeldeMeterPerSeconde * 3.6;
 
-                $('#distanceInKmValue').text(Math.round(totalKm) + 'km');
-                $('#averageKmph').text(Math.round(gemiddeldeKilomterPerUur, 2) + ' km/u');
-                $('#averageMs').text(Math.round(gemiddeldeMeterPerSeconde, 2) + ' m/s');
-                $('#timePer1000').text(timePer(1000));
-                $('#timePer500').text(timePer(500));
-                $('#timePer400').text(timePer(400));
-                $('#timePer100').text(timePer(100));
+                $('#distanceInKmValue').text(Math.round(totalKm * 100) / 100 + 'km');
+                $('#averageKmph').text(Math.round(gemiddeldeKilomterPerUur * 100) / 100 + ' km/u');
+                $('#averageMs').text(Math.round(gemiddeldeMeterPerSeconde * 100) / 100 + ' m/s');
+                secondsPerMeter = totalSeconds / (totalKm * 1000);
+                $('#timePer1000').text(timePer(secondsPerMeter, 1000));
+                $('#timePer500').text(timePer(secondsPerMeter, 500));
+                $('#timePer400').text(timePer(secondsPerMeter, 400));
+                $('#timePer100').text(timePer(secondsPerMeter, 100));
 
                 // bootstrapTable
                 $div.find('table').bootstrapTable();
