@@ -83,8 +83,8 @@
                 return (parseInt(timeInput[1]) * 3600) + (parseInt(timeInput[2]) * 60) + (parseInt(timeInput[3]));
             }
 
-            function timePer(secondsPerMeter, meters) {
-                return secondsToHMS(secondsPerMeter / 1000 / meters);
+            function timePer(meterPerSeconde, meters) {
+                return secondsToHMS(meterPerSeconde * meters);
             }
 
             function validateAndHandleInput() {
@@ -131,12 +131,10 @@
                 $('#distanceInKmValue').text(Math.round(totalKm * 100) / 100 + 'km');
                 $('#averageKmph').text(Math.round(gemiddeldeKilomterPerUur * 100) / 100 + ' km/u');
                 $('#averageMs').text(Math.round(gemiddeldeMeterPerSeconde * 100) / 100 + ' m/s');
-debugger;
-                secondsPerMeter = totalSeconds / (totalKm * 1000);
-                $('#timePer1000').text(timePer(secondsPerMeter, 1000));
-                $('#timePer500').text(timePer(secondsPerMeter, 500));
-                $('#timePer400').text(timePer(secondsPerMeter, 400));
-                $('#timePer100').text(timePer(secondsPerMeter, 100));
+                $('#timePer1000').text(timePer(gemiddeldeMeterPerSeconde, 1000));
+                $('#timePer500').text(timePer(gemiddeldeMeterPerSeconde, 500));
+                $('#timePer400').text(timePer(gemiddeldeMeterPerSeconde, 400));
+                $('#timePer100').text(timePer(gemiddeldeMeterPerSeconde, 100));
 
                 // bootstrapTable
                 $div.find('table').bootstrapTable();
