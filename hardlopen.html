@@ -84,7 +84,7 @@
             }
 
             function timePer(meterPerSeconde, meters) {
-                return secondsToHMS(meterPerSeconde * meters);
+                return secondsToHMS(meters / meterPerSeconde);
             }
 
             function validateAndHandleInput() {
