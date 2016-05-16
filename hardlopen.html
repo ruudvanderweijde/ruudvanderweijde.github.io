@@ -12,9 +12,11 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/alert.js"></script>
     <script>
 
-        $(function() {
-           $('.alert').hide();
-        });
+        function hideWarning() { $('.alert').hide(); }
+        function showWarning(message) { $('.alert').show().text(message); }
+
+        $(function() { hideWarning(); });
+
         var distanceSteps = [1, 2, 3, 4, 5, 6, 7, 8, 9, 9.6, 10, 10.5, 11, 12, 13, 14, 15, 16.1, 17, 18, 19,
             20, 21, 21.1, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 42.2];
 
@@ -24,15 +26,7 @@
             var h = Math.floor(d / 3600);
             var m = Math.floor(d % 3600 / 60);
             var s = Math.floor(d % 3600 % 60);
-            console.log(d, h, m, s);
-            console.log((h > 0 ? (h >= 10 ? String(h) : '0' + String(h)): '00'),
-            (m > 0 ? (m >= 10 ? String(m) : '0' + String(m)): '00'),
-            (s > 0 ? (s >= 10 ? String(s) : '0' + String(s)): '00'),
-            (
-            (h > 0 ? (h >= 10 ? String(h) : '0' + String(h)): '00') + ':' +
-            (m > 0 ? (m >= 10 ? String(m) : '0' + String(m)): '00') + ':' +
-            (s > 0 ? (s >= 10 ? String(s) : '0' + String(s)): '00')
-            ));
+
             return (
                 (h > 0 ? (h >= 10 ? String(h) : '0' + String(h)): '00') + ':' +
                 (m > 0 ? (m >= 10 ? String(m) : '0' + String(m)): '00') + ':' +
@@ -44,7 +38,7 @@
         function getValue2(i) { return Math.pow((i / totalKm), 1.06) * totalSeconds }
 
         function showTable() {
-            $('.alert').hide();
+            hideWarning();
 
             function generateResultDataHeader() {
                 $row = $('<tr>');
@@ -53,6 +47,7 @@
                 $('<th>').text("Opbouwend").appendTo($row);
                 $row.appendTo($resultTable);
             }
+
             function generateResultDataRow(i) {
                 $row = $('<tr>');
                 $('<td>').text(i).appendTo($row);
@@ -60,15 +55,18 @@
                 $('<td>').text(secondsToHMS(getValue2(i))).appendTo($row);
                 $row.appendTo($resultTable);
             }
+
             function generateFactDataRow(table, label, value) {
                 $row = $('<tr>');
                 $('<td>').text(label).appendTo($row);
                 $('<td>').text(value).appendTo($row);
                 $row.appendTo(table);
             }
+
             function timeToSeconds(timeInput) {
                 return (parseInt(timeInput[1]) * 3600) + (parseInt(timeInput[2]) * 60) + (parseInt(timeInput[3]));
             }
+
             function timePer(meters) {
                 return secondsToHMS((totalSeconds / totalKm) * 1000) / (1000 / meters);
             }
@@ -93,10 +91,6 @@
                 }
 
                 return true;
-            }
-
-            function showWarning(message) {
-                $('.alert').show().text(message);
             }
 
             if(validateAndHandleInput()){
@@ -184,14 +178,14 @@
                         <dd id="averageKmph"></dd>
                         <dt>Gemiddelde:</dt>
                         <dd id="averageMs"></dd>
-                        <!--<dt>Tijd per 1000m:<dt>-->
-                        <!--<dd id="timePer1000"><dd>-->
-                        <!--<dt>Tijd per 500m:<dt>-->
-                        <!--<dd id="timePer500"><dd>-->
-                        <!--<dt>Tijd per 400m:<dt>-->
-                        <!--<dd id="timePer400"><dd>-->
-                        <!--<dt>Tijd per 100m:<dt>-->
-                        <!--<dd id="timePer100"><dd>-->
+                        <dt>Tijd per 1000m:<dt>
+                        <dd id="timePer1000"><dd>
+                        <dt>Tijd per 500m:<dt>
+                        <dd id="timePer500"><dd>
+                        <dt>Tijd per 400m:<dt>
+                        <dd id="timePer400"><dd>
+                        <dt>Tijd per 100m:<dt>
+                        <dd id="timePer100"><dd>
                     </dl>
                 </div>
             </div>
