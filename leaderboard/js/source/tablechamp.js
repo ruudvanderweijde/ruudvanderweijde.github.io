@@ -58,6 +58,7 @@
         initPlayersListener();
         initOfflineDetect();
         sidebarInit();
+        rankingToggle('doubles'); // load doubles by default
     }
     function initHeader() {
         $('.app header').html(tmpl('appHeader', {
