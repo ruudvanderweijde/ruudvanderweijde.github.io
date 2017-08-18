@@ -741,7 +741,10 @@ body {
     vertical-align: middle;
     width: 32.3%;
     -webkit-user-select: none;
-    user-select: none; }
+    user-select: none;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap; }
     .players-select a:active, .players-select a:focus, .players-select a:hover {
       border-color: #67727B;
       text-decoration: none; }
