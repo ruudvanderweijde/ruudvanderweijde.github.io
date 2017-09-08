@@ -502,7 +502,7 @@
             var lastTwentyGames = '';
             var lastTwentyGamesData = [];
             var playersGames = {};
-            fbdb.ref('/playersgame/' + thisKey).limitToLast(20).once('value').then(function(snapshot) {
+            fbdb.ref('/playersgame/' + thisKey).once('value').then(function(snapshot) {
                 playersGames = snapshot.val();
                 // To array
                 for (var key in playersGames) {
@@ -756,14 +756,14 @@
             var t2p1LastMovement = t2p1PointsNew - localData.playersByKey[t2p1Key].doubles_points;
             var t2p2LastMovement = t2p2PointsNew - localData.playersByKey[t2p2Key].doubles_points;
             // Updates games won/lost
-            var t1p1GamesLost = localData.playersByKey[t1p1Key].singles_lost;
-            var t1p1GamesWon = localData.playersByKey[t1p1Key].singles_won;
-            var t1p2GamesLost = localData.playersByKey[t1p2Key].singles_lost;
-            var t1p2GamesWon = localData.playersByKey[t1p2Key].singles_won;
-            var t2p1GamesLost = localData.playersByKey[t2p1Key].singles_lost;
-            var t2p1GamesWon = localData.playersByKey[t2p1Key].singles_won;
-            var t2p2GamesLost = localData.playersByKey[t2p2Key].singles_lost;
-            var t2p2GamesWon = localData.playersByKey[t2p2Key].singles_won;
+            var t1p1GamesLost = localData.playersByKey[t1p1Key].doubles_lost;
+            var t1p1GamesWon = localData.playersByKey[t1p1Key].doubles_won;
+            var t1p2GamesLost = localData.playersByKey[t1p2Key].doubles_lost;
+            var t1p2GamesWon = localData.playersByKey[t1p2Key].doubles_won;
+            var t2p1GamesLost = localData.playersByKey[t2p1Key].doubles_lost;
+            var t2p1GamesWon = localData.playersByKey[t2p1Key].doubles_won;
+            var t2p2GamesLost = localData.playersByKey[t2p2Key].doubles_lost;
+            var t2p2GamesWon = localData.playersByKey[t2p2Key].doubles_won;
             var t1Won = false;
             var t2Won = false;
             if (parseInt(t1s) > parseInt(t2s)) {
