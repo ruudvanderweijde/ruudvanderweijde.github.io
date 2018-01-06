@@ -1,49 +1,23 @@
----
-layout: default
-title: Solar Theme
----
-
-{% for post in paginator.posts %}
-
-	<article class="post">
-
-		{% if post.external-url %}
-			<h1>
-				<a href="{{ post.external-url }}">{{ post.title }}</a>
-				<a class="anchor" href="{{ post.url }}"><i class="icon-anchor"></i></a>
-			</h1>
-		{% else %}
-			<h1><a href="{{ post.url }}">{{ post.title }}</a></h1>
-		{% endif %}
-
-		<div class="post-content">{{ post.content }}</div>
-
-	</article>
-
-{% endfor %}
-
-
-
-{% if paginator.total_pages > 1 %}
-	<div class="postnavigation">
-
-		{% if paginator.previous_page %}
-			{% if paginator.page == 2 %}
-				<a class="prev left" href="/">&larr; Newer</a>
-			{% else %}
-				<a class="prev left" href="/page{{paginator.previous_page}}/">&larr; Newer</a>
-			{% endif %}
-		{% else %}
-			<span class="nope left">&larr; Newer</span>
-		{% endif %}
-
-		<span class="pages">Page {{ paginator.page }} of {{ paginator.total_pages }}</span>
-
-		{% if paginator.next_page %}
-			<a class="next right" href="/page{{paginator.next_page}}/">Older &rarr;</a>
-		{% else %}
-			<span class="nope right">Older &rarr;</span>
-		{% endif %}
-
-	</div>
-{% endif %}
+<html>
+<head>
+    <meta http-equiv="refresh" content="60">
+    <style>
+        html {
+            width:100%;
+            height:100%;
+            background: linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3);
+        }
+        div {
+            height: 100%;
+            width:100%;
+            background-image: url(http://thecatapi.com/api/images/get?api_key=MjYyNDEz&type=gif&format=src);
+            background-position: center center;
+            background-size: 85%;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+<body>
+<div></div>
+</body>
+</html>
