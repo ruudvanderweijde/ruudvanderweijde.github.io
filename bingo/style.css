@@ -21,6 +21,7 @@ th, td {
 
 [data-checked="1"] {
 	background-color: #f66;
+	text-decoration: line-through;
 }
 
 [data-count="3"] {
