@@ -19,13 +19,13 @@ th, td {
 	width: 20%;
 }
 
-#free, .pickedBG {
+[data-checked="1"] {
 	background-color: #f66;
 }
 
-.winningBG {
-/* 	lets set it to flash or blink or something */
+[data-count="3"] {
+	background-color: #f66;
+	text-decoration: underline;
+	animation: blink 1s infinite;
 }
-
-
-/* https://designshack.net/articles/typography/10-more-great-google-font-combinations-you-can-copy/ */
+@keyframes blink { 0%{ color:black; } 100%{ color:white; } }

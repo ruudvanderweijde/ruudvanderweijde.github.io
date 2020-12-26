@@ -1,26 +1,53 @@
-window.onload = createCard;
+window.onload = init;
 const dict = {
-	woonstijlen: ["Basic", "Vintage", "Design", "Industrieel", "Klassiek", "Landelijk", "Romantisch"],
+	woonstijlen: ["Basic", "Vintage", "Design", "Industrieel", "Klassiek", "Landelijk", "Romantisch", "Retro"],
 	uitspraken: ["Verbinding met de keuken", "Tuin is het verlengstuk van het huis", "Verschillende functies", "Kinderen nemen de woonkamer over", "Alle meubels tegen de muren", "Knipoog naar ...", "Middelpunt van het huis"],
-	partners: ["Dock Four", "Eijerkamp", "Eijffinger", "Flexa", "Geberit", "GewoonGers", "Hartman", "Upstairs", "Verasol", "Werk aan de muur", "Woninginrichting-Aanhuis.nl", ],
-	diversen: ["Robust", "Stoer", "Pastel kleuren", "Aardse kleuren", "Zachte materialen", "Natuurlijke materialen", "Persoonlijke touch", "No-nonsense", "Woontrend", "Mix-en-match"]
+	partners: ["Dock Four", "Eijerkamp", "Eijffinger", "Flexa", "Geberit", "GewoonGers", "Hartman", "Upstairs", "Verasol", "Werk aan de muur", "Woninginrichting-Aanhuis.nl"],
+	diversen: ["Robust", "Stoer", "Pastel kleuren", "Aardse kleuren", "Zachte materialen", "Natuurlijke materialen", "Persoonlijke touch", "No-nonsense", "Woontrend", "Mix & match", "Zitcomfort", "Elementenbank"]
+}
+
+function init() {
+	document.getElementById("reload").onclick = createCard;
+	if (card = localStorage.getItem('card')) {
+		restoreCard(JSON.parse(card));
+	} else {
+		createCard();
+	}
+}
+
+function restoreCard(card) {
+	for (const [id, state] of Object.entries(card)) {
+		fillBox(id, state.value, state.checked);
+	}
 }
 
 function createCard() {
-	let shuffled;
-	for (const [category, values] of Object.entries(dict)) {
-		shuffled = shuffle(values);
-		for (var i=1; i<=4; i++) {
-			fillCategory(category, i, shuffled.pop());
+	localStorage.setItem('card', '{}');
+	const dictClone = JSON.parse(JSON.stringify(dict)); // clone dict to keep original values
+	for (const [category, values] of Object.entries(JSON.parse(JSON.stringify(dict)))) {
+		for (var i=1; i<=3; i++) {
+			fillBox(category + i, shuffle(values).pop(), false);
 		}
 	}
 }
 
-function fillCategory(category, iteration, value) {
-	const id = category + iteration;
+function fillBox(id, value, checked) {
 	document.getElementById(id).innerHTML = value;
-	document.getElementById(id).className = "";
+	document.getElementById(id).setAttribute("data-checked", checked ? 1 : 0);
 	document.getElementById(id).onmousedown = toggleColor;
+	storeState(id, value, checked);
+	checkWin();
+}
+
+function storeState(id, value, checked) {
+	let card = JSON.parse(localStorage.getItem('card') ?? "{}");
+	let box = card[id] ?? {};
+	if (value) {
+		box.value = value;
+	}
+	box.checked = checked;
+	card[id] = box;
+	localStorage.setItem('card', JSON.stringify(card));
 }
 
 /**
@@ -36,43 +63,20 @@ function shuffle(a) {
 }
 
 function toggleColor(evt) {
-	var thisSquare = evt ? evt.target : window.event.srcElement;
-	if (thisSquare.className === "") {
-		thisSquare.className = "pickedBG";
-	}	else {
-		thisSquare.className = "";
-	}
+	const element = evt ? evt.target : window.event.srcElement;
+	const currentState = parseInt(element.dataset.checked ?? 0);
+	const wantedState = currentState === 0 ? 1 : 0;
+	element.dataset.checked = wantedState;
+	storeState(element.id, null, wantedState === 1);
 	checkWin();
 }
 
 
 function checkWin() {
-	return false; // todo
-	let i;
-	var winningOption = -1;
-	var setSquares = 0;
-	var winners = [31,992,15360,507904,541729,557328,1083458,2162820,4329736,8519745,8659472,16252928];
-
-	for (i = 0; i<24; i++) {
-		var currSquare = "square" + i;
-		if (document.getElementById(currSquare).className !== "") {
-			document.getElementById(currSquare).className = "pickedBG";
-			setSquares = setSquares | Math.pow(2,i);
-		}
-	}
-
-	for (i = 0; i<winners.length; i++) {
-		if ((winners[i] & setSquares) === winners[i]) {
-			winningOption = i;
-		}
-	}
-
-	if (winningOption > -1) {
-		for (i = 0; i<24; i++) {
-			if (winners[winningOption] & Math.pow(2,i)) {
-				currSquare = "square" + i;
-				document.getElementById(currSquare).className = "winningBG";
-			}
-		}
+	for (const category of Object.keys(dict)) {
+		document.getElementById(category).dataset.count =
+			parseInt(document.getElementById(category + 1).dataset.checked) +
+			parseInt(document.getElementById(category + 2).dataset.checked) +
+			parseInt(document.getElementById(category + 3).dataset.checked);
 	}
 }
