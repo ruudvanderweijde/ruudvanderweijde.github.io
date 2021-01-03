@@ -3,7 +3,7 @@ const dict = {
 	woonstijlen: ["Basic", "Vintage", "Design", "Industrieel", "Klassiek", "Landelijk", "Romantisch", "Retro"],
 	uitspraken: ["Verbinding met de keuken", "Tuin is het verlengstuk van het huis", "Verschillende functies", "Kinderen nemen de woonkamer over", "Alle meubels tegen de muren", "Knipoog naar ...", "Middelpunt van het huis"],
 	partners: ["Dock Four", "Eijerkamp", "Eijffinger", "Flexa", "Geberit", "GewoonGers", "Hartman", "Upstairs", "Verasol", "Werk aan de muur", "Woninginrichting-Aanhuis.nl"],
-	diversen: ["Robust", "Stoer", "Pastel kleuren", "Aardse kleuren", "Zachte materialen", "Natuurlijke materialen", "Persoonlijke touch", "No-nonsense", "Woontrend", "Mix & match", "Zitcomfort", "Elementenbank"]
+	diversen: ["Robust", "Stoer", "Pastel kleuren", "Aardse kleuren", "Zachte materialen", "Natuurlijke materialen", "Persoonlijke touch", "Woontrend", "Mix & match", "Zitcomfort", "Elementenbank", "Shutters"]
 }
 
 function init() {
