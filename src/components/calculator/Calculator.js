@@ -31,15 +31,19 @@ function Calculator() {
 
     if (mathStack.length || memory.length) {
       setResult(mathStack.join(' ') + ' ' + memory.join('') + ' = ' + total([...mathStack, '0'+memory.join('')]));
+    } else {
+      setResult('...');
     }
   }, [mathStack, memory])
 
   const handleClick = id => {
     console.log('handle id:', id);
     if (['C'].includes(id)) {
-      setMathStack([]);
-      setMemory([]);
-      setResult('...');
+      if (memory.length) {
+        setMemory([]);
+      } else if (mathStack.length) {
+        setMathStack(stack => { stack.pop(); return [...stack]; });
+      }
     } else if (['+', '-'].includes(id)) {
       if (memory.length) {
         setMathStack(stack => [...stack, memory.join('')]);
