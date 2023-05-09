@@ -4,13 +4,14 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from "react-bootstrap/Button";
-import DividerRow from "../util/DividerRow";
+
+import './Calculator.css';
 
 function Calculator() {
   const numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
-  const operators = ['+', '-', 'C'];
 
-  const [result, setResult] = useState('...');
+  const [total, setTotal] = useState(0);
+  const [calculation, setCalculation] = useState('');
   const [memory, setMemory] = useState([]);
   const [mathStack, setMathStack] = useState([]);
   useEffect(() => {
@@ -30,40 +31,52 @@ function Calculator() {
     };
 
     if (mathStack.length || memory.length) {
-      setResult(mathStack.join(' ') + ' ' + memory.join('') + ' = ' + total([...mathStack, '0'+memory.join('')]));
+      setCalculation(mathStack.join('') + '' + memory.join(''));
+      setTotal(total([...mathStack, '0'+memory.join('')]));
     } else {
-      setResult('...');
+      setCalculation('');
+      setTotal(0);
     }
   }, [mathStack, memory])
 
-  const handleClick = id => {
-    console.log('handle id:', id);
-    if (['C'].includes(id)) {
-      if (memory.length) {
-        setMemory([]);
-      } else if (mathStack.length) {
-        setMathStack(stack => { stack.pop(); return [...stack]; });
-      }
-    } else if (['+', '-'].includes(id)) {
-      if (memory.length) {
-        setMathStack(stack => [...stack, memory.join('')]);
-        setMemory([]);
-      }
-      setMathStack(stack => [...stack, id]);
-    } else {
-      setMemory(memory => [...memory, id]);
+  const onNumberPress = num => {
+    setMemory(memory => [...memory, num]);
+  }
+  const onPlusMinusPress = key => {
+    if (memory.length) {
+      setMathStack(stack => [...stack, memory.join('')]);
+      setMemory([]);
+    } else if (['+','-'].includes(mathStack[mathStack.length-1])) {
+      // if last item is an operator, drop the last item
+      setMathStack(stack => { stack.pop(); return [...stack]; });
+    }
+    setMathStack(stack => [...stack, key]);
+  }
+  const onClearPress = () => {
+    if (memory.length) {
+      setMemory([]);
+    } else if (mathStack.length) {
+      setMathStack(stack => { stack.pop(); return [...stack]; });
     }
   }
 
   return (
     <Container>
-      <Row className="text-center mb-2"><Col>{result}</Col></Row>
-      <DividerRow/>
-      <Row className="text-center">
-        {operators.map(i => (<Col key={i} xs={4}><Button variant="warning" style={{width: "100px", height: "100px"}} className="mb-2" size="lg" onClick={(e) => handleClick(i)}>{i}</Button></Col>))}
+      <Row className="text-center mb-4">
+        <Col xs={6} style={{ margin: "auto"}}><div className="calculation">{calculation}</div></Col>
+        <Col xs={2} style={{ margin: "auto"}}><div className="total">{total}</div></Col>
+        <Col xs={4}>
+          <Button variant="danger" size="lg" onClick={onClearPress}>C</Button>
+        </Col>
       </Row>
       <Row className="text-center">
-        {numbers.map(i => (<Col key={i} xs={4}><Button style={{width: "100px", height: "100px"}} className="mb-2" size="lg" onClick={(e) => handleClick(i)}>{i}</Button></Col>))}
+        {numbers.map(i => (<Col key={i} xs={4}><Button className="mb-2" size="lg" onClick={(e) => onNumberPress(i)}>{i}</Button></Col>))}
+        <Col key="plus" xs={4}>
+          <Button variant="warning" className="mb-2" size="lg" onClick={(e => onPlusMinusPress('+'))}>+</Button>
+        </Col>
+        <Col key="minus" xs={4}>
+          <Button variant="warning" className="mb-2" size="lg" onClick={(e => onPlusMinusPress('-'))}>-</Button>
+        </Col>
       </Row>
     </Container>
   );

@@ -4,7 +4,6 @@ import TextRow from "../util/TextRow";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
-import DividerRow from "../util/DividerRow";
 
 function Combinations({filteredOptions, inactives, updateInactives}) {
   const handleClick = id => {
@@ -36,7 +35,6 @@ function Combinations({filteredOptions, inactives, updateInactives}) {
           </Col>
         ))}
       </Row>
-      <DividerRow/>
     </>
   );
 }
