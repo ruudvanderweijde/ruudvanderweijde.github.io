@@ -30,7 +30,7 @@ function Combinations({filteredOptions, inactives, updateInactives}) {
         {filteredOptions.map(option => (
           <Col key={option.value}>
             <Button key={option.value} className="mb-2" variant={inactives.has(option.value) ? "secondary" : "success"} onClick={(e) => handleClick(option.value)}>
-              {option.value}
+              <span style={{whiteSpace: "nowrap"}}>{option.value}</span>
             </Button>
           </Col>
         ))}
