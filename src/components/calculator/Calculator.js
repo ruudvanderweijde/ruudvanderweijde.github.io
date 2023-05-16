@@ -5,10 +5,13 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from "react-bootstrap/Button";
 
+import useLongPress from './../../util/useLongPress';
+
 import './Calculator.css';
 
 function Calculator() {
   const numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+  const operators = ['+', '-'];
 
   const [total, setTotal] = useState(0);
   const [calculation, setCalculation] = useState('');
@@ -27,7 +30,7 @@ function Calculator() {
           sum -= parseFloat(s);
         }
       }
-      return sum;
+      return sum > 999 ? '∞' : sum;
     };
 
     if (mathStack.length || memory.length) {
@@ -56,8 +59,22 @@ function Calculator() {
     if (memory.length) {
       setMemory([]);
     } else if (mathStack.length) {
-      setMathStack(stack => { stack.pop(); return [...stack]; });
+      setMathStack(stack => {
+        stack.pop();
+        if (stack.length) {
+          setMemory([...stack.pop()]);
+        }
+        return [...stack];
+      });
     }
+  }
+  const onLongClearPress = () => {
+    setMemory([]);
+    setMathStack([]);
+  }
+  const pressClearEvents = {
+    ...useLongPress(onLongClearPress, 1000),
+    onClick: onClearPress
   }
 
   return (
@@ -66,17 +83,12 @@ function Calculator() {
         <Col xs={6} style={{ margin: "auto"}}><div className="calculation">{calculation}</div></Col>
         <Col xs={2} style={{ margin: "auto"}}><div className="total">{total}</div></Col>
         <Col xs={4}>
-          <Button variant="danger" size="lg" onClick={onClearPress}>C</Button>
+          <Button variant="danger" size="lg" {...pressClearEvents}>C</Button>
         </Col>
       </Row>
       <Row className="text-center">
         {numbers.map(i => (<Col key={i} xs={4}><Button className="mb-2" size="lg" onClick={(e) => onNumberPress(i)}>{i}</Button></Col>))}
-        <Col key="plus" xs={4}>
-          <Button variant="warning" className="mb-2" size="lg" onClick={(e => onPlusMinusPress('+'))}>+</Button>
-        </Col>
-        <Col key="minus" xs={4}>
-          <Button variant="warning" className="mb-2" size="lg" onClick={(e => onPlusMinusPress('-'))}>-</Button>
-        </Col>
+        {operators.map(i => (<Col key={i} xs={4}><Button variant="warning" className="mb-2" size="lg" onClick={(e) => onPlusMinusPress(i)}>{i}</Button></Col>))}
       </Row>
     </Container>
   );
