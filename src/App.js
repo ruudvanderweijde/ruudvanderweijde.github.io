@@ -25,12 +25,8 @@ function App() {
 
   return (
     <Tabs fill id="tabs" activeKey={tabIndex} onSelect={(k) => setTabIndex(k)} className="mb-3 mt-2">
-      <Tab eventKey={tab.Combinations} title={tab.Combinations}>
-        <CombinationsContainer/>
-      </Tab>
-      <Tab eventKey={tab.Calculator} title={tab.Calculator}>
-        <Calculator/>
-      </Tab>
+      <Tab eventKey={tab.Combinations} title={tab.Combinations}><CombinationsContainer/></Tab>
+      <Tab eventKey={tab.Calculator} title={tab.Calculator}><Calculator/></Tab>
     </Tabs>
   );
 }

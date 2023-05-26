@@ -55,7 +55,7 @@ function Calculator() {
     }
     setMathStack(stack => [...stack, key]);
   }
-  const onClearPress = () => {
+  const clearOne = () => {
     if (memory.length) {
       setMemory([]);
     } else if (mathStack.length) {
@@ -68,13 +68,13 @@ function Calculator() {
       });
     }
   }
-  const onLongClearPress = () => {
+  const clearAll = () => {
     setMemory([]);
     setMathStack([]);
   }
   const pressClearEvents = {
-    ...useLongPress(onLongClearPress, 1000),
-    onClick: onClearPress
+    ...useLongPress(clearAll, 500),
+    onClick: clearOne
   }
 
   return (
